@@ -7,6 +7,7 @@ id: number,
 email: string,
 username:string,
 funds : number
+isAdmin:boolean
 }
 
 interface userState {

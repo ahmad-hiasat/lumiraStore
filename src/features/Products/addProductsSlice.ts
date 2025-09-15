@@ -12,12 +12,14 @@ interface AddProductsState {
   productsData: Product | null;
   loading: boolean;
   error: string | null;
+  message : string | null
 }
 
 const initialState: AddProductsState = {
   productsData: null,
   loading: false,
   error: null,
+  message: null
 };
 
 const productsSlice = createSlice({
@@ -37,7 +39,7 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
-      });
+      })
   },
 });
 

@@ -3,16 +3,16 @@ import ButtonForm from "../BodyCodeForAuth/ButtonForm"
 import { RootState, AppDispatch } from "@/store/index"
 import { useRouter } from "next/navigation"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useFormik } from "formik"
 import { loginSchema } from "../formikLogic/authValidation"
 import { loginInitialValues } from "../formikLogic/formInitialValues"
 import Cookies from "js-cookie" 
 import FloatingInput from "../BodyCodeForAuth/FloatingInput"
-// import ForgetPasswordModel from "./ForgetPasswordModel"
 import { loginUser } from "@/features/auth/LoginThunks"
+import ForgetPasswordModel from "./ForgetPasswordModel"
 const LoginForm = () => {
-  // const [ModelActive, setModelActive] = useState(false)
+  const [ModelActive, setModelActive] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const router = useRouter()
 
@@ -59,14 +59,12 @@ const LoginForm = () => {
           />
           <ButtonForm loading={loading} />
         </form>
-        {/* <button type={"button"} className="mt-5 cursor-pointer underline hover:bg-activeColor hover:text-white px-2" onClick={()=>{
-          setModelActive(true)
-        }}>
+        <button type={"button"} className="mt-5 cursor-pointer underline hover:bg-activeColor hover:text-white px-2" onClick={()=>setModelActive(true)}>
           forgetPassword
-        </button> */}
+        </button>
         {error && <p className="mt-4 text-center text-red-500">{error}</p>}
         {!error && message && <p className="mt-4 text-center text-green-600">{message}</p>}
-        {/* {ModelActive && <ForgetPasswordModel model={setModelActive} /> } */}
+        {ModelActive && <ForgetPasswordModel model={setModelActive} /> }
       </div>
     </div>
     </div>

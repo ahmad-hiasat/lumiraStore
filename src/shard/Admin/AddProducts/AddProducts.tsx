@@ -22,13 +22,12 @@ const AddProducts = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setFormError(null); // مسح رسالة الخطأ عند الكتابة
+    setFormError(null); 
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // تحقق من الحقول قبل الإرسال
     if (
       !formData.title.trim() ||
       !formData.price.trim() ||
@@ -42,7 +41,6 @@ const AddProducts = () => {
 
     setFormError(null);
 
-    // إرسال البيانات للـ API عبر الـ thunk
     dispatch(
       fetchAddProducts({
         title: formData.title,
@@ -53,7 +51,6 @@ const AddProducts = () => {
       })
     );
 
-    // إعادة تعيين الحقول بعد الإرسال
     setFormData({
       title: "",
       price: "",
@@ -65,7 +62,7 @@ const AddProducts = () => {
 
   return (
     <div>
-      <h2 onClick={()=>{setActive(true)}} className="mb-8 cursor-pointer text-2xl font-bold underline">Add Products</h2>
+      <h2 onClick={()=>{setActive(true)}} className="mb-8 w-fit cursor-pointer text-2xl font-bold underline">Add Products</h2>
 
       <div className={`${Active ? "fixed" : "hidden"} model  fixed w-full z-50 m-auto h-full bg-[#0000006b] top-0 left-0 flex items-center justify-center`}>
         <div className="relative w-[60%] h-[70%] pt-16 rounded-md bg-white p-6">

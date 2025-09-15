@@ -166,7 +166,7 @@ export async function AddProductsApi(data:IAddProducts) {
   }
   return await res.text()
 }
-// Add products
+// Add Cart
 export async function AddCartApi(data:AddCartPayload) {
   const res = await fetch(`${BASE_URL}/orders/addToCart`, {
     method: "POST",
@@ -226,5 +226,94 @@ export async function deleteAllCartApi() {
 
   return res.json(); 
 }
+// delete product admin
+export async function deleteProductApi(productId: string) {
+  const res = await fetch(`${BASE_URL}/products/${productId}`, {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
 
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في حذف المنتج");
+  }
+
+  return res.json(); 
+}
+//requestResetId
+export async function requestResetId(email: string) {
+  const res = await fetch(`${BASE_URL}/users/reset/getId`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في إرسال البريد الإلكتروني");
+  }
+
+  return res.json();
+}
+
+// verifyOtpApi
+export async function verifyOtpApi({
+  id,
+  otp,
+}: {
+  id: string | number;
+  otp: number;
+}) {
+  const res = await fetch(`${BASE_URL}/users/reset/forgetPassword/otp/${id}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ otp }),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في التحقق من الكود");
+  }
+
+  return res.json();
+}
+// resetPasswordApi
+
+export async function resetPasswordApi({ id, password }: { id: string | number; password: string }) {
+  const url = `${BASE_URL}/users/enterPassword/${id}`;
+  console.log("👉 Calling API:", url, "with body:", { password });
+
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ password }),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في تغيير كلمة المرور");
+  }
+
+  return res.json(); // { message: "ok", status: true }
+}
+
+// services/api.ts
+export async function searchProductsApi(title: string) {
+  const res = await fetch(`${BASE_URL}/products/search`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ title }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(text || "فشل في البحث");
+  }
+
+  return await res.json(); // بيرجع المنتجات أو رسالة الخطأ
+}
 

@@ -3,9 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '@/store/index';
-import Image from 'next/image';
 import {useEffect, useState } from "react";
-// import FullPageLoader from '@/shard/FullPageLoader';
 import { fetchSingleProduct } from '@/features/SingleProduct/singleProductThunks';
 import AddToCart from '@/shard/AddToCart/AddToCart';
 const SingleProduct = () => {
@@ -14,6 +12,7 @@ const SingleProduct = () => {
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
   const dispatch = useDispatch<AppDispatch>();
   const { SingleProductId, loading, error } = useSelector((state: RootState) => state.SingleProduct); 
+  const { userData } = useSelector((state: RootState) => state.userData);
   
     useEffect(() => {
     if (id) {
@@ -28,7 +27,6 @@ const SingleProduct = () => {
   return (
     <header className='py-[100px]'>
         <div className="container">
-          {/* <h1 className='text-2xl font-bold mb-8'>{t("SingleProductData-head")}</h1> */}
           <div className='flex gap-5 max-lg:flex-wrap'>
             <div className="image flex gap-4 w-[50%]">
             {img && (
@@ -49,8 +47,12 @@ const SingleProduct = () => {
                   <span className='line-through text-gray-600'>${price}</span>
                 </div>
                 <p className='text-gray-600'>{desc}</p>
-                <button onClick={()=>setActive(!Active)} className='cursor-pointer text-white bg-black h-[50px] px-8 rounded-md'>Add to cart</button>
-                <AddToCart product={SingleProductId} status={Active} />
+                {userData?.isAdmin !== true &&
+                <>
+                  <button onClick={()=>setActive(!Active)} className='cursor-pointer text-white bg-black h-[50px] px-8 rounded-md'>Add to cart</button>
+                  <AddToCart product={SingleProductId} status={Active} />
+                </>
+                }
               </div>
             </div>
           </div>

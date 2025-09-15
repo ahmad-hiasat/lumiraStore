@@ -30,3 +30,17 @@ export const fetchAddProducts = createAsyncThunk(
     }
   }
 );
+export const fetchDeleteProducts = createAsyncThunk(
+  "DeleteProduct/fetchDeleteProducts",
+  async ( {id} : { id: string }, { rejectWithValue }) => {
+    try {
+      const data = await api.deleteProductApi(id);
+      return data;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("فشل في تحميل المنتجات");
+    }
+  }
+);
