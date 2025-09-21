@@ -3,12 +3,10 @@ import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { RootState, AppDispatch } from "@/store";
-import { useTranslations } from "next-intl";
 import Cookies from "js-cookie";
 import { changePasswordOtpUser } from "@/features/auth/LoginThunks";
 
 const ForgetPasswordOtp = () => {
-  const t = useTranslations("Register");
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { errorActivate, messageActivate } = useSelector(
@@ -63,7 +61,7 @@ const ForgetPasswordOtp = () => {
 
   return (
     <div className="container mx-auto max-w-md p-8">
-      <h1 className="text-2xl font-bold mb-6">{t("password")}</h1>
+      <h1 className="text-2xl font-bold mb-6">{"password"}</h1>
       <div className="flex justify-center gap-4 mb-6">
         {codeInputs.map((value, index) => (
           <input

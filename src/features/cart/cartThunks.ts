@@ -14,13 +14,13 @@ export const fetchAddCart = createAsyncThunk(
     }
   }
 );
-
+// get
 export const fetchGetCart = createAsyncThunk(
   "cart/fetchGetCart",
   async (_, { rejectWithValue }) => {
     try {
       const data = await api.getCartApi();
-       console.log("Cart API response:", data);
+      //  console.log("Cart API response:", data);
       return data;
     } catch (error: unknown) {
       if (error instanceof Error) {

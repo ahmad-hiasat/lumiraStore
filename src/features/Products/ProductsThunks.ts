@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as api from "../../services/api"
-
+import { IAddProducts } from "@/types/type";
 
 export const fetchProducts = createAsyncThunk(
   "productData/fetchProducts",
@@ -16,13 +16,13 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
-export const fetchAddProducts = createAsyncThunk(
-  "AddProduct/fetchAddProducts",
-  async (NewData: { title: string; price: number; desc: string , img:string , count:number}, { rejectWithValue }) => {
+export const fetchAddProducts = createAsyncThunk<IAddProducts, Omit<IAddProducts, "_id">>(
+  "addProduct/fetchAddProducts",
+  async (newData, { rejectWithValue }) => {
     try {
-      const data = await api.AddProductsApi(NewData);
-      return data;
-    } catch (error: unknown) {
+      const product = await api.AddProductsApi(newData);
+      return product; 
+    } catch (error : unknown ) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
       }
@@ -30,9 +30,11 @@ export const fetchAddProducts = createAsyncThunk(
     }
   }
 );
+// delete
+
 export const fetchDeleteProducts = createAsyncThunk(
   "DeleteProduct/fetchDeleteProducts",
-  async ( {id} : { id: string }, { rejectWithValue }) => {
+  async ( id: string , { rejectWithValue }) => {
     try {
       const data = await api.deleteProductApi(id);
       return data;
@@ -40,7 +42,31 @@ export const fetchDeleteProducts = createAsyncThunk(
       if (error instanceof Error) {
         return rejectWithValue(error.message);
       }
-      return rejectWithValue("فشل في تحميل المنتجات");
+      return rejectWithValue("فشل في حذف المنتجات");
+    }
+  }
+);
+// ProductsUpdate
+export const fetchUpdateProduct = createAsyncThunk(
+  "products/fetchUpdateProduct",
+  async (
+    {
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: Partial<{ title: string; price: number; desc: string; img: string; count: number }>;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const data = await api.updateProductApi(id, updates);
+      return data;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("فشل في تعديل المنتج");
     }
   }
 );

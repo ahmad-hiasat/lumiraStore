@@ -10,7 +10,7 @@ export const fetchSearchProducts = createAsyncThunk(
         return rejectWithValue("Min search length is 3");
       }
       const data = await api.searchProductsApi(title);
-      console.log(data);
+      // console.log(data);
       
       return data;
     } catch (error: unknown) {

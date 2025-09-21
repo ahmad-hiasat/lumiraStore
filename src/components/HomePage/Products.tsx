@@ -7,10 +7,9 @@ import Link from "next/link";
 import { fetchProducts } from "@/features/Products/ProductsThunks";
 import AddProducts from "@/shard/Admin/AddProducts/AddProducts";
 import { IoSettingsOutline } from "react-icons/io5";
-// import { MdOutlineDeleteOutline } from "react-icons/md";
-import { MdOutlineModeEdit } from "react-icons/md";
 import DeleteProduct from "@/shard/Admin/DeleteProdeuct/DeleteProduct";
 import { fetchUserData } from "@/features/userData/userDataThunks";
+import EditProduct from "@/shard/Admin/EditProduct/EditProduct";
 
 const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,21 +31,21 @@ const Products = () => {
     <div className="py-16">
     <div className="container m-auto">
       {userData?.isAdmin && <div><AddProducts/></div>}
-      <div className="flex flex-wrap mb-10 gap-4">
+      <div className="flex mb-10 flex-wrap">
         {productsData.slice(0, 10).map((product) => (
+          <div key={product._id} className="px-3  w-[50%] md:w-[33.33%] lg:w-[25%] mb-10">
           <div
-            key={product._id}
-            className="px-2 w-[50%] md:w-[33.33%] lg:w-[25%] xl:w-[20%] mb-10 shadow border"
+            className="shadow border pb-5"
           >
             <div className="image h-[170px] sm:h-[220px] relative bg-gray">
-              <div className="absolute group overflow-hidden z-10 top-0 left-0 h-full w-full flex flex-col justify-between"></div>
+              <div className="absolute group overflow-hidden top-0 left-0 h-full w-full flex flex-col justify-between"></div>
               {userData?.isAdmin && 
-              <div className="absolute flex text-2xl gap-3 flex-col top-3 z-50 left-3 rounded-full bg-[#52220A] w-fit h-fit p-2 cursor-pointer text-white">
+              <div className="absolute flex text-2xl gap-3 flex-col top-3  left-3 rounded-full bg-[#52220A] w-fit h-fit p-2 cursor-pointer text-white">
                 <IoSettingsOutline className="p-1 rounded-full hover:bg-white hover:text-[#52220A]" onClick={()=>  setActive(Active === product._id ? null : product._id)} />
                 {Active === product._id && (
                   <>
                     <DeleteProduct id={product._id} />
-                    <MdOutlineModeEdit className="rounded-full p-1 hover:bg-white hover:text-[#52220A]"/>
+                    <EditProduct product={product} />
                   </>
                 )}
               </div>
@@ -59,7 +58,7 @@ const Products = () => {
                : ""}
             </div>
             <div
-              className={`"text-start" info mt-4`}
+              className={`px-3 info mt-4`}
             >
               <h5 className="font-semibold mb-3">
                 { product.title}
@@ -76,6 +75,7 @@ const Products = () => {
                 show details
               </Link>
             </div>
+          </div>
           </div>
         ))}
       </div>

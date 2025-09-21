@@ -40,11 +40,12 @@ p:string
 icon:IconType
 }
 export interface IAddProducts {
+  _id?: string;
   title: string;
   price: number;
   desc: string;
-  img?: string;
-  count?: number;
+  img: string;
+  count: number;
 }
 export interface AddCartPayload {
   productId: string;

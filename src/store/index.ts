@@ -8,8 +8,10 @@ import SingleProductSlice from "../features/SingleProduct/singleProductSlice";
 import userSlice from "../features/userData/userDataSlice";
 import forgetReducer from "../features/auth/forgetPasswordSlice";
 import cartReducer from "../features/cart/cartSlice";
-import DeleteProductReducer from "../features/Products/DeleteSlice";
+// import DeleteProductReducer from "../features/Products/DeleteSlice";
 import searchReducer from "../features/search/searchSlice";
+import currencyReducer from "../features/Currency/CurrencySlice";
+import updateProductReducer from "../features/Products/UpdateProductSlice";
 
 export const Store = configureStore({
   reducer: {
@@ -19,11 +21,13 @@ export const Store = configureStore({
     login: LoginReducer,
     products: productsReducer,
     AddProduct: AddProductsReducer,
-    DeleteProduct: DeleteProductReducer,
+    // DeleteProduct: DeleteProductReducer,
     SingleProduct: SingleProductSlice,
     userData: userSlice,
     forget: forgetReducer,
     search: searchReducer,
+    currency: currencyReducer,
+    updateProduct: updateProductReducer,
   },
 })
 

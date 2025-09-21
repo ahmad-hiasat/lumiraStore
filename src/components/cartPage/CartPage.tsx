@@ -7,6 +7,7 @@ import { fetchGetCart, fetchDeleteProductInCart, fetchDeleteAllCart } from "@/fe
 const CartPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { orders, loading, error } = useSelector((state: RootState) => state.cart);
+console.log("thd",orders);
 
   useEffect(() => {
     dispatch(fetchGetCart());
@@ -25,7 +26,7 @@ const CartPage = () => {
   if (!orders || orders.length === 0) return <p>السلة فارغة</p>;
 
   return (
-    <div className="p-5 max-w-3xl mx-auto">
+    <div className="p-5 max-w-3xl mx-auto py-[80px]">
       <h1 className="text-2xl font-bold mb-5">🛒 سلة المشتريات</h1>
       <button onClick={handleDeleteAll} className="cursor-pointer mb-4 bg-red-500 text-white px-4 py-2 rounded">
         حذف كل المنتجات

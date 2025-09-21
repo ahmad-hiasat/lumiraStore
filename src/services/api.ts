@@ -153,18 +153,18 @@ export async function SingleProductApi(id:string) {
 }
 
 // Add products
-export async function AddProductsApi(data:IAddProducts) {
+export async function AddProductsApi(data: Omit<IAddProducts, "_id">) {
   const res = await fetch(`${BASE_URL}/products`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
     body: JSON.stringify(data),
-  })
+  });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(text || "فشل في إضافة المنتج");
   }
-  return await res.text()
+  return (await res.json()) as IAddProducts;
 }
 // Add Cart
 export async function AddCartApi(data:AddCartPayload) {
@@ -284,7 +284,6 @@ export async function verifyOtpApi({
 
 export async function resetPasswordApi({ id, password }: { id: string | number; password: string }) {
   const url = `${BASE_URL}/users/enterPassword/${id}`;
-  console.log("👉 Calling API:", url, "with body:", { password });
 
   const res = await fetch(url, {
     method: "POST",
@@ -298,15 +297,15 @@ export async function resetPasswordApi({ id, password }: { id: string | number; 
     throw new Error(errorText || "فشل في تغيير كلمة المرور");
   }
 
-  return res.json(); // { message: "ok", status: true }
+  return res.json();
 }
-
-// services/api.ts
+// searchProductsApi
 export async function searchProductsApi(title: string) {
   const res = await fetch(`${BASE_URL}/products/search`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title }),
+    credentials: "include",
   });
 
   if (!res.ok) {
@@ -314,6 +313,44 @@ export async function searchProductsApi(title: string) {
     throw new Error(text || "فشل في البحث");
   }
 
-  return await res.json(); // بيرجع المنتجات أو رسالة الخطأ
+  return await res.json();
 }
+
+// Currency
+
+export async function getCurrencyApi() {
+  const res = await fetch(`${BASE_URL}/Currency`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في التحميل");
+  }
+
+  return await res.json(); 
+}
+
+// updateProductApi
+export async function updateProductApi(
+  id: string,
+  updates: Partial<{ title: string; price: number; desc: string; img: string; count: number }>
+) {
+  const res = await fetch(`${BASE_URL}/products/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في التعديل");
+  }
+
+  return await res.json();
+}
+
 

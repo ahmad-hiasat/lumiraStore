@@ -50,8 +50,12 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchGetCart.fulfilled, (state, action) => {
+        console.log("the product :" ,  action.payload);
+        
         state.loading = false;
-        state.orders = action.payload.cart.orders;
+          state.orders = (action.payload.ar || []).filter(
+          (item: CartOrder) => Object.keys(item).length > 0
+        )
       })
       .addCase(fetchGetCart.rejected, (state, action) => {
         state.loading = false;

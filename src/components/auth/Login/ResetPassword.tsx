@@ -26,8 +26,6 @@ const ResetPassword = () => {
       .unwrap()
       .then((res) => {
             console.log("API response:", res);
-    console.log("lolfsdf ");
-
         if (res.status) {
           alert("Password changed successfully!");
           router.push("/login");

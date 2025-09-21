@@ -13,7 +13,6 @@ const SingleProduct = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { SingleProductId, loading, error } = useSelector((state: RootState) => state.SingleProduct); 
   const { userData } = useSelector((state: RootState) => state.userData);
-  
     useEffect(() => {
     if (id) {
       dispatch(fetchSingleProduct(id));
@@ -21,32 +20,36 @@ const SingleProduct = () => {
   }, [id, dispatch]);
 ;
   if (!SingleProductId) return null;
-  const { title, desc, price, img, } = SingleProductId;
+  const { title, desc, price, img, count, NumberOfSales } = SingleProductId;
   if (loading) return "loading"
   if (error) return <div>Error: {error}</div>;
   return (
     <header className='py-[100px]'>
         <div className="container">
           <div className='flex gap-5 max-lg:flex-wrap'>
-            <div className="image flex gap-4 w-[50%]">
+            <div className="image flex gap-4 w-full lg:w-[50%]">
             {img && (
-              <div className="flex-1 bg-gray-300 h-[350px] relative">
+              <div className="flex-1 max-lg:h-[400px]  relative">
                 <div className='absolute group overflow-hidden z-10 top-0 left-0 h-full w-full flex flex-col justify-between'>
                 </div>
                 <img 
+                className='w-full h-full object-cover'
                   src={img}
                   alt="Main Product Image"
                   />
               </div>
             )}            
           </div>
-            <div className='w-[50%]'>
+            <div className='w-full lg:w-[50%]'>
               <div className="info pb-5 border-b">
-                <h1 className='font-bold text-lg'>{title}</h1>
-                <div className='flex justify-between mb-5'>
-                  <span className='line-through text-gray-600'>${price}</span>
+                <h2 className='font-bold text-lg'> {title}</h2>
+                <h3 className='text-red-500'> ${price}</h3>
+                <h3 className=''>Available quantity :  {count}</h3>
+                <h3 className=''>NumberOfSales :  {NumberOfSales}</h3>
+                <div>
+                  <h3>The Description</h3>
+                  <p className='text-gray-600'>{desc}</p>
                 </div>
-                <p className='text-gray-600'>{desc}</p>
                 {userData?.isAdmin !== true &&
                 <>
                   <button onClick={()=>setActive(!Active)} className='cursor-pointer text-white bg-black h-[50px] px-8 rounded-md'>Add to cart</button>

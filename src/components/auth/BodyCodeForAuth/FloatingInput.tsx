@@ -1,11 +1,8 @@
 import { FloatingInputProps } from '@/types/type';
-import { useLocale } from 'next-intl';
 import { useState, useEffect } from 'react';
 
 export default function FloatingInput({ label, name, type = "text", value, onChange, onBlur, error }: FloatingInputProps) {
   const [isFocused, setIsFocused] = useState(false);
-  const locale = useLocale();
-  const isArabic = locale === "ar";
   const hasValue = value && value.trim().length > 0;
 
   useEffect(() => {
@@ -34,7 +31,7 @@ export default function FloatingInput({ label, name, type = "text", value, onCha
       />
       <label
         htmlFor={name}
-        className={`absolute ${ isArabic ? "right-3" : "left-3"} font-bold text-gray-500 transition-all duration-200 pointer-events-none ${ isFocused || hasValue ? "text-[14px] top-1.5" : "text-[16px] top-4.5"
+        className={`absolute left-3 font-bold text-gray-500 transition-all duration-200 pointer-events-none ${ isFocused || hasValue ? "text-[14px] top-1.5" : "text-[16px] top-4.5"
         }`}
       >
         {label}

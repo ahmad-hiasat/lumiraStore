@@ -1,10 +1,10 @@
 // src/features/Products/ProductsSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchProducts } from "./ProductsThunks";
+import { fetchProducts, fetchDeleteProducts } from "./ProductsThunks";
 
 interface Product {
-  NumberOfSales:number
-  category:string
+  NumberOfSales: number;
+  category: string;
   count: number;
   _id: string;
   img: string;
@@ -13,6 +13,7 @@ interface Product {
   price: number;
   livRate: number;
 }
+
 interface ProductsState {
   productsData: Product[];
   loading: boolean;
@@ -31,6 +32,7 @@ const productsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // جلب المنتجات
       .addCase(fetchProducts.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -42,6 +44,13 @@ const productsSlice = createSlice({
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+
+      // delete
+      .addCase(fetchDeleteProducts.fulfilled, (state, action) => {
+        state.productsData = state.productsData.filter(
+          (p) => p._id !== action.payload
+        );
       });
   },
 });

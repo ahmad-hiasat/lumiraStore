@@ -8,6 +8,7 @@ interface Product {
   price: number;
   img: string;
   count: number;
+  NumberOfSales:number
 }
 interface SingleProductState {
     SingleProductId: Product | null ;

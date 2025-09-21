@@ -6,7 +6,10 @@ import { fetchDeleteProducts } from '@/features/Products/ProductsThunks';
 const DeleteProduct = ({id} : {id:string}) => {
       const dispatch = useDispatch<AppDispatch>();
       const  handleClick = ()=>{
-        dispatch(fetchDeleteProducts({id}))
+        dispatch(fetchDeleteProducts(id))
+        setInterval(() => {
+          window.location.reload();
+        }, 300);
       }
   return (
     <div>

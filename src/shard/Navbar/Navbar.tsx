@@ -1,24 +1,16 @@
-import { NavbarData } from '@/utils/dummy'
 import Link from 'next/link'
 import Check from './Check';
+import MenuLinks from './MenuLinks';
 
 const Navbar = () => {
   return (
-    <div className='shadow '>
+    <div className='shadow z-50 fixed top-0 left-0 right-0 bg-white'>
         <div className="container">
             <nav className='flex items-center justify-between h-[60px]'>
                 <div className='logo text-lg'>
                     <Link href={"/"}>Lumira</Link>
                 </div>
-                <div className='links'>
-                    <ul className='flex items center'>
-                        {NavbarData.map((ele,index)=>(
-                            <li key={index} className='text-md  hover:text-[#52220A] font-bold px-3 '>
-                                <Link href={ele.hash}>{ele.head}</Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <MenuLinks style1={"links max-lg:hidden"} style2={"flex items center"} />
                 <Check/>
             </nav>
         </div>
