@@ -16,7 +16,7 @@ export default function AddProducts() {
     price: number;
     desc: string;
     img: string;
-    count: number;
+    stock: number;
   }) => {
     try {
       await dispatch(fetchAddProducts(data)).unwrap();

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import * as api from "../../services/api"
-import { IAddProducts } from "@/types/type";
+import { IAddProduct } from "@/types/type";
 
 export const fetchProducts = createAsyncThunk(
   "productData/fetchProducts",
@@ -16,11 +16,13 @@ export const fetchProducts = createAsyncThunk(
     }
   }
 );
-export const fetchAddProducts = createAsyncThunk<IAddProducts, Omit<IAddProducts, "_id">>(
+export const fetchAddProducts = createAsyncThunk<IAddProduct, Omit<IAddProduct, "_id">>(
   "addProduct/fetchAddProducts",
   async (newData, { rejectWithValue }) => {
     try {
       const product = await api.AddProductsApi(newData);
+      console.log(product);
+      
       return product; 
     } catch (error : unknown ) {
       if (error instanceof Error) {

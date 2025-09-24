@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAddProducts } from "./ProductsThunks";
-import { IAddProducts } from "@/types/type";
+import { IAddProduct } from "@/types/type";
 
 interface AddState {
-  newProduct: IAddProducts | null;
+  newProduct: IAddProduct | null;
   loading: boolean;
   error: string | null;
 }
@@ -30,7 +30,7 @@ const addProductSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchAddProducts.fulfilled, (state, action: PayloadAction<IAddProducts>) => {
+      .addCase(fetchAddProducts.fulfilled, (state, action: PayloadAction<IAddProduct>) => {
         state.loading = false;
         state.newProduct = action.payload;
       })

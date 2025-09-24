@@ -1,11 +1,12 @@
 // features/cart/cartSlice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchAddCart, fetchGetCart, fetchDeleteProductInCart, fetchDeleteAllCart } from "./cartThunks";
+import { fetchAddCart, fetchGetCart, fetchDeleteProductInCart, fetchDeleteAllCart, fetchBuyOrder } from "./cartThunks";
 
 interface CartOrder {
   id: string;
   count: number;
   _id: string;
+  ProductPrice:number
 }
 
 interface CartState {
@@ -50,8 +51,6 @@ const cartSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchGetCart.fulfilled, (state, action) => {
-        console.log("the product :" ,  action.payload);
-        
         state.loading = false;
           state.orders = (action.payload.ar || []).filter(
           (item: CartOrder) => Object.keys(item).length > 0
@@ -79,6 +78,22 @@ const cartSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(fetchDeleteAllCart.rejected, (state, action) => {
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(fetchBuyOrder.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+      state.message = null;
+      })
+      .addCase(fetchBuyOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.message = action.payload.message; 
+        state.orders = [];
+      })
+      .addCase(fetchBuyOrder.rejected, (state, action) => {
+        
+        state.loading = false;
         state.error = action.payload as string;
       });
   },

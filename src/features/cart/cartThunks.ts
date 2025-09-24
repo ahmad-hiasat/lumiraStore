@@ -14,22 +14,39 @@ export const fetchAddCart = createAsyncThunk(
     }
   }
 );
+
 // get
+
+type FetchError = {
+  response?: {
+    status?: number;
+  };
+  message?: string;
+};
+
 export const fetchGetCart = createAsyncThunk(
   "cart/fetchGetCart",
   async (_, { rejectWithValue }) => {
     try {
       const data = await api.getCartApi();
-      //  console.log("Cart API response:", data);
-      return data;
+      console.log(data);
+      
+      return data; 
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
+      const err = error as FetchError;
+
+      if (err.response?.status === 404) {
+        return [];
       }
-      return rejectWithValue("فشل في تحميل السلة");
+      const message =
+        typeof err.message === "string"
+          ? err.message
+          : "حدث خطأ غير متوقع أثناء جلب السلة";
+      return rejectWithValue(message);
     }
   }
 );
+
 
 // Delete
 export const fetchDeleteProductInCart = createAsyncThunk(
@@ -55,6 +72,25 @@ export const fetchDeleteAllCart = createAsyncThunk(
     } catch (error: unknown) {
       if (error instanceof Error) return rejectWithValue(error.message);
       return rejectWithValue("فشل في حذف السلة بالكامل");
+    }
+  }
+);
+
+// checkout 
+
+export const fetchBuyOrder = createAsyncThunk(
+  "cart/fetchBuyOrder",
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await api.buyOrderApi();
+      return data;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log("❌ Error message:", error.message);
+        return rejectWithValue(error.message);
+      }
+      console.log("❌ Unknown error:", error);
+      return rejectWithValue("فشل في إتمام الطلب");
     }
   }
 );

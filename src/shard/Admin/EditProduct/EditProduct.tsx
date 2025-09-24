@@ -14,7 +14,7 @@ interface EditProductProps {
     price: number;
     desc: string;
     img: string;
-    count: number;
+    stock: number;
   };
 }
 
@@ -29,18 +29,14 @@ export default function EditProduct({ product }: EditProductProps) {
     price: number;
     desc: string;
     img: string;
-    count: number;
+    stock: number;
   }) => {
     try {
-      // ✅ نستخدم unwrap عشان نستنى النتيجة الحقيقية (resolve / reject)
       await dispatch(fetchUpdateProduct({ id: product._id, updates: data })).unwrap();
-
-      // ✅ عند النجاح:
-      setOpen(false);               // إغلاق المودال
-      dispatch(fetchProducts());    // تحديث قائمة المنتجات
-      dispatch(resetUpdateState()); // تصفير حالة التحديث
+      setOpen(false);              
+      dispatch(fetchProducts());    
+      dispatch(resetUpdateState());
     } catch (err) {
-      // الخطأ هيتعرض تلقائياً من الstate
       console.error("فشل التعديل:", err);
     }
   };

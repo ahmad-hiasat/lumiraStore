@@ -47,6 +47,14 @@ export interface IAddProducts {
   img: string;
   count: number;
 }
+export interface IAddProduct {
+  _id?: string;
+  title: string;
+  price: number;
+  desc: string;
+  img: string;
+  stock: number;
+}
 export interface AddCartPayload {
   productId: string;
   count: number;

@@ -13,14 +13,16 @@ const SingleProduct = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { SingleProductId, loading, error } = useSelector((state: RootState) => state.SingleProduct); 
   const { userData } = useSelector((state: RootState) => state.userData);
-    useEffect(() => {
+  const { price } = useSelector((state: RootState) => state.currency);
+    const fundsInLocal = (amount: number ) => (amount * price).toFixed(2);
+  useEffect(() => {
     if (id) {
       dispatch(fetchSingleProduct(id));
     }
   }, [id, dispatch]);
-;
+  ;
   if (!SingleProductId) return null;
-  const { title, desc, price, img, count, NumberOfSales } = SingleProductId;
+  const { title, desc, img, count, NumberOfSales } = SingleProductId;
   if (loading) return "loading"
   if (error) return <div>Error: {error}</div>;
   return (
@@ -43,7 +45,7 @@ const SingleProduct = () => {
             <div className='w-full lg:w-[50%]'>
               <div className="info pb-5 border-b">
                 <h2 className='font-bold text-lg'> {title}</h2>
-                <h3 className='text-red-500'> ${price}</h3>
+                <h3 className='text-red-500'> ${fundsInLocal(SingleProductId.price)}</h3>
                 <h3 className=''>Available quantity :  {count}</h3>
                 <h3 className=''>NumberOfSales :  {NumberOfSales}</h3>
                 <div>

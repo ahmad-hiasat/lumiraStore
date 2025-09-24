@@ -1,4 +1,4 @@
-import { ActivateData, AddCartPayload, ChangePasswordData, ChangePasswordDataOtp, IAddProducts, LoginData, SignupData } from "@/types/type";
+import { ActivateData, AddCartPayload, ChangePasswordData, ChangePasswordDataOtp, IAddProduct, LoginData, SignupData } from "@/types/type";
 const BASE_URL =  process.env.NEXT_PUBLIC_BASE_URL
 
 // register
@@ -153,7 +153,7 @@ export async function SingleProductApi(id:string) {
 }
 
 // Add products
-export async function AddProductsApi(data: Omit<IAddProducts, "_id">) {
+export async function AddProductsApi(data: Omit<IAddProduct, "_id">) {
   const res = await fetch(`${BASE_URL}/products`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -164,7 +164,7 @@ export async function AddProductsApi(data: Omit<IAddProducts, "_id">) {
     const text = await res.text();
     throw new Error(text || "فشل في إضافة المنتج");
   }
-  return (await res.json()) as IAddProducts;
+  return (await res.json()) as IAddProduct;
 }
 // Add Cart
 export async function AddCartApi(data:AddCartPayload) {
@@ -181,6 +181,7 @@ export async function AddCartApi(data:AddCartPayload) {
   return await res.text()
 }
 // get cart
+
 export async function getCartApi() {
   const res = await fetch(`${BASE_URL}/orders/getCart`, {
     method: "GET",
@@ -348,6 +349,20 @@ export async function updateProductApi(
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || "فشل في التعديل");
+  }
+
+  return await res.json();
+}
+// checkout 
+export async function buyOrderApi() {
+  const res = await fetch(`${BASE_URL}/orders/buyOrder`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(errorText || "فشل في إتمام الطلب");
   }
 
   return await res.json();

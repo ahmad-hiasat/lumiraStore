@@ -10,7 +10,7 @@ interface ProductFormProps {
     price?: number;
     desc?: string;
     img?: string;
-    count?: number;
+    stock?: number;
   };
   onSubmitAction: (data: {
     _id?: string;
@@ -18,7 +18,7 @@ interface ProductFormProps {
     price: number;
     desc: string;
     img: string;
-    count: number;
+    stock: number;
   }) => Promise<void>;
   loading: boolean;
   error: string | null;
@@ -41,7 +41,7 @@ export default function ProductForm({
     price: "",
     desc: "",
     img: "",
-    count: "",
+    stock: "",
   });
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -52,7 +52,7 @@ export default function ProductForm({
         price: initialData.price?.toString() || "",
         desc: initialData.desc || "",
         img: initialData.img || "",
-        count: initialData.count?.toString() || "",
+        stock: initialData.stock?.toString() || "",
       });
     }
   }, [initialData, mode]);
@@ -75,7 +75,7 @@ export default function ProductForm({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, price, desc, img, count } = formData;
+    const { title, price, desc, img, stock } = formData;
 
     if (title.trim().length < 5) {
       setFormError("⚠️ the title shuiled be min 5 litters ");
@@ -85,7 +85,7 @@ export default function ProductForm({
       setFormError("⚠️the descraption shuiled be min 10 litters");
       return;
     }
-    if (!price.trim() || !img.trim() || !count.trim()) {
+    if (!price.trim() || !img.trim() || !stock.trim()) {
       setFormError("⚠️  all inputs is requred");
       return;
     }
@@ -96,11 +96,11 @@ export default function ProductForm({
       price: Number(price),
       desc: desc.trim(),
       img: img.trim(),
-      count: Number(count),
+      stock: Number(stock),
     });
 
     if (mode === "add") {
-      setFormData({ title: "", price: "", desc: "", img: "", count: "" });
+      setFormData({ title: "", price: "", desc: "", img: "", stock: "" });
     }
   };
 
@@ -151,9 +151,9 @@ export default function ProductForm({
             />
             <input
               type="number"
-              name="count"
-              placeholder="count"
-              value={formData.count}
+              name="stock"
+              placeholder="stock"
+              value={formData.stock}
               onChange={handleChange}
               className="border border-black text-black p-2 rounded"
             />

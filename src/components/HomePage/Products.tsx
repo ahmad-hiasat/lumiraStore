@@ -15,11 +15,13 @@ const Products = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { productsData, loading, error } = useSelector((state: RootState) => state.products);
   const { userData } = useSelector((state: RootState) => state.userData);
+  const { price } = useSelector((state: RootState) => state.currency);
   const [Active,setActive] =  useState<string | null>(null);
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchUserData());
   }, [dispatch]);
+  const fundsInLocal = (amount: number ) => (amount * price).toFixed(2);
 
   if (loading) {
     return <p className="text-center py-6">جارٍ تحميل المنتجات...</p>;
@@ -65,10 +67,10 @@ const Products = () => {
               </h5>
               <div className="flex justify-between">
                 <span className="line-through text-gray-600">
-                  ${product.price}
+                  ${(fundsInLocal(product.price))}
                 </span>
                 <span className="text-brown font-bold">
-                  ${(product.price - (product.price * 10) / 100).toFixed()}
+                   ${(parseFloat(fundsInLocal(product.price)) * 0.9).toFixed(2)}         
                 </span>
               </div>
               <Link  href={`/SingleProduct/${product._id}`} className="cursor-pointer">
